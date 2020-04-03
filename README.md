@@ -21,6 +21,7 @@ quay.io/sub_mod/tf-vegeta:latest
 Openshift deploy    
 ```
 oc apply -f template.yml
+oc new-app --template=tf-vegeta  --param=DURATION=300s --param=REQUEST_RATE_PER_SEC=1000 --param=ROUTE_FROM_ENV="http://ocp-server.com/v1/models/mnist:predict"
 
 oc delete all -l appTypes=tf-vegeta
 oc delete template tf-vegeta
