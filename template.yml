@@ -71,28 +71,28 @@ parameters:
   required: true
 - name: CPU_LIMIT
   description: CPU_LIMIT
-  value: '8'
+  value: '1'
   required: true
 - name: MEMORY_LIMIT
   description: MEMORY_LIMIT
-  value: '20Gi'
+  value: '1Gi'
   required: true
 - name: CPU_REQUESTS
   description: CPU_REQUESTS
-  value: '8'
+  value: '1'
   required: true
 - name: MEMORY_REQUESTS
   description: MEMORY_REQUESTS
-  value: '20Gi'
+  value: '1Gi'
 - name: RUN_SCRIPT
   value: "/opt/app-root/src/run.sh"
 - name: DURATION
-  value: '30s'
+  value: '300s'
   description: "Duration of the test [0 = forever]"
   required: true
 - name: REQUEST_RATE_PER_SEC
   description: "Number of requests per time unit"
-  value: '50'
+  value: '1000'
   required: true
 - name: ROUTE_FROM_ENV
   description: "Service route"
