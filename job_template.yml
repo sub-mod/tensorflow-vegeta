@@ -1,0 +1,89 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: tf-vegeta-job
+  annotations:
+    description: tf-vegeta-job
+    tags: tf-vegeta-job
+objects:
+- kind: Job
+  apiVersion: batch/v1
+  metadata:
+    name: "${APPLICATION_NAME}"
+    labels:
+      appTypes: tf-vegeta-job
+      app: "${APPLICATION_NAME}"
+  spec:
+    template:
+      metadata:
+        labels:
+          appTypes: tf-vegeta-job
+          app: "${APPLICATION_NAME}"
+      spec:
+        containers:
+          - env:
+            - name: TEST_LOOP
+              value: "${TEST_LOOP}"
+            - name: DURATION
+              value: "${DURATION}"
+            - name: REQUEST_RATE_PER_SEC
+              value: "${REQUEST_RATE_PER_SEC}"
+            - name: ROUTE_FROM_ENV
+              value: "${ROUTE_FROM_ENV}"
+            name: "${APPLICATION_NAME}"
+            image: "${IMAGE_REPOSITORY}"
+            command:
+              - "/usr/bin/container-entrypoint"
+              - "${RUN_SCRIPT}"
+            resources:
+              limits:
+                cpu: "${CPU_LIMIT}"
+                memory: "${MEMORY_LIMIT}"
+              requests:
+                cpu: "${CPU_REQUESTS}"
+                memory: "${MEMORY_REQUESTS}"
+        restartPolicy: Never
+parameters:
+- name: APPLICATION_NAME
+  description: The name of the application.
+  value: tf-vegeta-job
+  from: "[a-zA-Z0-9]{10}"
+  required: true
+- name: IMAGE_REPOSITORY
+  value: 'quay.io/sub_mod/tf-vegeta:latest'
+  required: true
+- name: TEST_LOOP
+  description: USE ONLY with DeploymentConfig.(y or n).If y then start a while loop.If
+    y then http won't start.
+  value: "n"
+  required: true
+- name: CPU_LIMIT
+  description: CPU_LIMIT
+  value: '1'
+  required: true
+- name: MEMORY_LIMIT
+  description: MEMORY_LIMIT
+  value: '1Gi'
+  required: true
+- name: CPU_REQUESTS
+  description: CPU_REQUESTS
+  value: '1'
+  required: true
+- name: MEMORY_REQUESTS
+  description: MEMORY_REQUESTS
+  value: '1Gi'
+- name: RUN_SCRIPT
+  value: "/opt/app-root/src/run.sh"
+- name: DURATION
+  value: '300s'
+  description: "Duration of the test [0 = forever]"
+  required: true
+- name: REQUEST_RATE_PER_SEC
+  description: "Number of requests per time unit"
+  value: '1500'
+  required: true
+- name: ROUTE_FROM_ENV
+  description: "Service route"
+  value: 'http://digit-recognition-server-thoth-prod-tensorflow.cloud.paas.psi.redhat.com/v1/models/mnist:predict'
+  required: true
