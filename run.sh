@@ -39,17 +39,8 @@ while kill -0 $BACK_PID ; do
     sleep 1
     # You can add a timeout here if you want
 done
+vegeta report results.json > report.txt
+cat report.txt
 echo "==================="
 echo "END"
 echo "==================="
-# while true; do
-#    clear
-#    vegeta report results.json > report.txt
-#    cat report.txt
-#    sleep 5
-#    if [[ $i -eq 2 ]]; then
-#      break
-#    fi
-#    echo ""
-#    echo ""
-# done

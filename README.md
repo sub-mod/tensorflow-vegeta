@@ -20,11 +20,16 @@ quay.io/sub_mod/tf-vegeta:latest
 
 Openshift deploy    
 ```
-oc apply -f template.yml
-oc new-app --template=tf-vegeta  --param=DURATION=300s --param=REQUEST_RATE_PER_SEC=1000 --param=ROUTE_FROM_ENV="http://ocp-server.com/v1/models/mnist:predict"
+oc apply -f job_template.yml
+oc new-app --template=tf-vegeta-job  --param=DURATION=300s --param=REQUEST_RATE_PER_SEC=1000 --param=ROUTE_FROM_ENV="http://ocp-server.com/v1/models/mnist:predict"
 
-oc delete all -l appTypes=tf-vegeta
-oc delete template tf-vegeta
+oc new-app --template=tf-vegeta-job  --param=DURATION=10s --param=REQUEST_RATE_PER_SEC=100
+oc get pods --selector=app=tf-vegeta-job
+oc get pods --selector=app=tf-vegeta-job -o custom-columns=":metadata.name" --no-headers
+oc logs --tail=11 $(oc get pods --selector=app=tf-vegeta-job -o custom-columns=":metadata.name" --no-headers)
+
+oc delete all -l appTypes=tf-vegeta-job
+oc delete template tf-vegeta-job
 ```
 
 Run Locally    

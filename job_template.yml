@@ -10,7 +10,7 @@ objects:
 - kind: Job
   apiVersion: batch/v1
   metadata:
-    name: "${APPLICATION_NAME}"
+    generateName: tf-vegeta-job-
     labels:
       appTypes: tf-vegeta-job
       app: "${APPLICATION_NAME}"
@@ -60,7 +60,7 @@ parameters:
   required: true
 - name: CPU_LIMIT
   description: CPU_LIMIT
-  value: '1'
+  value: '4'
   required: true
 - name: MEMORY_LIMIT
   description: MEMORY_LIMIT
@@ -68,7 +68,7 @@ parameters:
   required: true
 - name: CPU_REQUESTS
   description: CPU_REQUESTS
-  value: '1'
+  value: '4'
   required: true
 - name: MEMORY_REQUESTS
   description: MEMORY_REQUESTS
@@ -76,12 +76,12 @@ parameters:
 - name: RUN_SCRIPT
   value: "/opt/app-root/src/run.sh"
 - name: DURATION
-  value: '300s'
+  value: '10s'
   description: "Duration of the test [0 = forever]"
   required: true
 - name: REQUEST_RATE_PER_SEC
   description: "Number of requests per time unit"
-  value: '1500'
+  value: '200'
   required: true
 - name: ROUTE_FROM_ENV
   description: "Service route"
