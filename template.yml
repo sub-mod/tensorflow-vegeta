@@ -92,7 +92,7 @@ parameters:
   required: true
 - name: REQUEST_RATE_PER_SEC
   description: "Number of requests per time unit"
-  value: '1000'
+  value: '1500'
   required: true
 - name: ROUTE_FROM_ENV
   description: "Service route"

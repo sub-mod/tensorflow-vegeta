@@ -26,3 +26,12 @@ oc new-app --template=tf-vegeta  --param=DURATION=300s --param=REQUEST_RATE_PER_
 oc delete all -l appTypes=tf-vegeta
 oc delete template tf-vegeta
 ```
+
+Run Locally    
+```
+vegeta attack -duration=120s -rate=400 -targets=target.list -output=results.bin
+vegeta plot -title=Results results.bin > results.html
+vegeta report results.bin
+cat results.bin | vegeta report -type="hist[0,100ms,200ms,300ms]"
+# https://www.scaleway.com/en/docs/vegeta-load-testing/
+```

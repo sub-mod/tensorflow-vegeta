@@ -1,0 +1,5 @@
+POST http://tf-cnn-frontend.apps.summit-gcp-ny1.redhatgcpkeynote.com/v1/models/mnist:predict
+Content-Type: application/json
+@$PWD/payload.json
+
+

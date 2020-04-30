@@ -29,12 +29,27 @@ echo "==================="
 echo "Run vegeta"
 echo "==================="
 vegeta attack -targets=target.list -rate=${REQUEST_RATE_PER_SEC} -duration=${DURATION} -insecure >> results.json &
-sleep 3
-while true; do
-   clear
-   vegeta report results.json > report.txt
-   cat report.txt
-   sleep 5
-   echo ""
-   echo ""
+BACK_PID=$!
+
+while kill -0 $BACK_PID ; do
+    echo "Process is still active..."
+    vegeta report results.json > report.txt
+    cat report.txt
+    echo "==================="
+    sleep 1
+    # You can add a timeout here if you want
 done
+echo "==================="
+echo "END"
+echo "==================="
+# while true; do
+#    clear
+#    vegeta report results.json > report.txt
+#    cat report.txt
+#    sleep 5
+#    if [[ $i -eq 2 ]]; then
+#      break
+#    fi
+#    echo ""
+#    echo ""
+# done
